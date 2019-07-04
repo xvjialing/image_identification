@@ -22,7 +22,7 @@ RUN apt-get update \
  && export CONDA_AUTO_UPDATE_CONDA=false \
 
 # Create a Python 3.7 environment
- && conda install -y conda-build \
+# && conda install -y conda-build \
  && conda create -y --name py37 python=3.7.3 \
  && export CONDA_DEFAULT_ENV=py37 \
  && export CONDA_PREFIX=/root/miniconda/envs/$CONDA_DEFAULT_ENV \
@@ -34,33 +34,15 @@ RUN apt-get update \
     pytorch-cpu=1.0.0 \
     torchvision-cpu=0.2.1 \
 
-# Install HDF5 Python bindings
- && conda install -y h5py=2.8.0 \
- && pip install h5py-cache==1.0 \
-
-# Install Torchnet, a high-level framework for PyTorch
- && pip install torchnet==0.0.4 \
-
 # Install Requests, a Python library for making HTTP requests
  && conda install -y requests=2.19.1 \
-
-# Install Graphviz
- && conda install -y graphviz=2.38.0 \
- && pip install graphviz==0.8.4 \
  
 # install tensorflow flask dependencies
  && pip install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner \
 
-# Install OpenCV3 Python bindings
- && apt-get update \
-    && apt-get install -y --no-install-recommends \
-    libgtk2.0-0 \
-    vim \
-    libcanberra-gtk-module \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && conda install -y -c menpo opencv=3.4.2 \
-    && conda clean -ya
+# Install OpenCV3 
+ && conda install -y -c menpo opencv=3.4.2 \
+ && conda clean -ya
     
 ENV MKL_THREADING_LAYER GNU
 ENV PATH=/root/miniconda/bin:$PATH
