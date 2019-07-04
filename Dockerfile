@@ -27,7 +27,7 @@ RUN apt-get update \
   && ln -s /usr/local/python-2.7.9/bin/python /usr/bin/python2.7.9 \
   && cd .. \
   && rm -rf Python-2.7.9 \
-  && export PATH=$PATH:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/python-2.7.9/bin
+  && export PATH=$PATH:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/python-2.7.9/bin \
 
 # install jsoncpp and scons
   && cd /root \
