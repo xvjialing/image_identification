@@ -17,7 +17,7 @@ RUN apt-get update \
  && conda update -y -n base -c defaults conda \
  && apt-get autoremove -y wget\
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
  && export PATH=$PATH:/root/miniconda/bin \
  && export CONDA_AUTO_UPDATE_CONDA=false \
 
