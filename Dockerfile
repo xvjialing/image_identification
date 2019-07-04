@@ -14,7 +14,7 @@ RUN apt-get update \
  && ~/miniconda.sh -b -p ~/miniconda \
  && rm ~/miniconda.sh \
  && export PATH=$PATH:/root/miniconda/bin \
- && conda update -y -n base -c defaults conda \
+# && conda update -y -n base -c defaults conda \
  && apt-get autoremove -y wget\
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
@@ -47,6 +47,9 @@ RUN apt-get update \
 # Install Graphviz
  && conda install -y graphviz=2.38.0 \
  && pip install graphviz==0.8.4 \
+ 
+# install tensorflow flask dependencies
+ && pip install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner
 
 # Install OpenCV3 Python bindings
  && apt-get update \
@@ -59,7 +62,6 @@ RUN apt-get update \
     && conda install -y -c menpo opencv=3.4.2 \
     && conda clean -ya
     
-    
 ENV MKL_THREADING_LAYER GNU
 ENV PATH=/root/miniconda/bin:$PATH
 ENV CONDA_AUTO_UPDATE_CONDA=false
@@ -68,6 +70,5 @@ ENV CONDA_PREFIX=/root/miniconda/envs/$CONDA_DEFAULT_ENV
 ENV PATH=$CONDA_PREFIX/bin:$PATH
 ENV NO_CUDA=1
 
-# install tensorflow flask dependencies
-RUN pip install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner
+
 
