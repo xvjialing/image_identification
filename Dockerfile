@@ -16,6 +16,7 @@ RUN apt-get update \
     && cmake --version \
 
 # install python2.7.9
+  && cd /root \
   && wget https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz \
   && tar -zxvf Python-2.7.9.tgz \
   && rm Python-2.7.9.tgz \
@@ -26,8 +27,10 @@ RUN apt-get update \
   && ln -s /usr/local/python-2.7.9/bin/python /usr/bin/python2.7.9 \
   && cd .. \
   && rm -rf Python-2.7.9 \
+  && export PATH=$PATH:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/python-2.7.9/bin
 
 # install jsoncpp and scons
+  && cd /root \
   && wget https://nchc.dl.sourceforge.net/project/jsoncpp/jsoncpp/0.5.0/jsoncpp-src-0.5.0.tar.gz \
   && wget https://jaist.dl.sourceforge.net/project/scons/scons/2.1.0/scons-2.1.0.tar.gz \
   && tar xzvf jsoncpp-src-0.5.0.tar.gz \
