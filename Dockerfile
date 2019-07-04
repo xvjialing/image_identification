@@ -69,7 +69,7 @@ RUN apt-get update \
   bzip2 \
   libx11-6 \
 # Install Miniconda
- && wget -O miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh \
+ && wget -O miniconda.sh https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh \
  && pwd \
  && ls -a \
  && chmod +x ~/miniconda.sh \
@@ -81,11 +81,11 @@ RUN apt-get update \
 ENV PATH=/root/miniconda/bin:$PATH
 ENV CONDA_AUTO_UPDATE_CONDA=false
 
-# Create a Python 3.6 environment
+# Create a Python 3.7 environment
 RUN /root/miniconda/bin/conda install conda-build \
- && /root/miniconda/bin/conda create -y --name py36 python=3.6.5 \
+ && /root/miniconda/bin/conda create -y --name py37 python=3.7 \
  && /root/miniconda/bin/conda clean -ya
-ENV CONDA_DEFAULT_ENV=py36
+ENV CONDA_DEFAULT_ENV=py37
 ENV CONDA_PREFIX=/root/miniconda/envs/$CONDA_DEFAULT_ENV
 ENV PATH=$CONDA_PREFIX/bin:$PATH
 
