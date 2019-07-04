@@ -18,20 +18,19 @@ RUN apt-get update \
  && apt-get autoremove -y wget\
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
-ENV PATH=/root/miniconda/bin:$PATH
-ENV CONDA_AUTO_UPDATE_CONDA=false
+ && export PATH=$PATH:/root/miniconda/bin \
+ && export CONDA_AUTO_UPDATE_CONDA=false \
 
 # Create a Python 3.7 environment
-RUN /root/miniconda/bin/conda install conda-build \
- && /root/miniconda/bin/conda create -y --name py37 python=3.7 \
- && /root/miniconda/bin/conda clean -ya
-ENV CONDA_DEFAULT_ENV=py37
-ENV CONDA_PREFIX=/root/miniconda/envs/$CONDA_DEFAULT_ENV
-ENV PATH=$CONDA_PREFIX/bin:$PATH
+ && conda install -y conda-build \
+ && conda create -y --name py37 python=3.7.3 \
+ && export CONDA_DEFAULT_ENV=py37 \
+ && export CONDA_PREFIX=/root/miniconda/envs/$CONDA_DEFAULT_ENV \
+ && export PATH=$PATH:$CONDA_PREFIX/bin \
 
 # No CUDA-specific steps
-ENV NO_CUDA=1
-RUN conda install -y -c pytorch \
+ && export NO_CUDA=1 \
+ && conda install -y -c pytorch \
     pytorch-cpu=1.0.0 \
     torchvision-cpu=0.2.1 \
 
@@ -53,12 +52,22 @@ RUN conda install -y -c pytorch \
  && apt-get update \
     && apt-get install -y --no-install-recommends \
     libgtk2.0-0 \
+    vim \
     libcanberra-gtk-module \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && conda install -y -c menpo opencv=3.4.2 \
     && conda clean -ya
     
+    
+ENV MKL_THREADING_LAYER GNU
+ENV PATH=/root/miniconda/bin:$PATH
+ENV CONDA_AUTO_UPDATE_CONDA=false
+ENV CONDA_DEFAULT_ENV=py37
+ENV CONDA_PREFIX=/root/miniconda/envs/$CONDA_DEFAULT_ENV
+ENV PATH=$CONDA_PREFIX/bin:$PATH
+ENV NO_CUDA=1
+
 # install tensorflow flask dependencies
 RUN pip install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner
-ENV MKL_THREADING_LAYER GNU
+
