@@ -49,7 +49,7 @@ RUN apt-get update \
  && pip install graphviz==0.8.4 \
  
 # install tensorflow flask dependencies
- && pip install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner
+ && pip install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner \
 
 # Install OpenCV3 Python bindings
  && apt-get update \
