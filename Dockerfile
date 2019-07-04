@@ -13,6 +13,8 @@ RUN apt-get update \
  && chmod +x ~/miniconda.sh \
  && ~/miniconda.sh -b -p ~/miniconda \
  && rm ~/miniconda.sh \
+ && export PATH=$PATH:/root/miniconda/bin \
+ && conda update -y -n base -c defaults conda \
  && apt-get autoremove -y wget\
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
