@@ -7,7 +7,7 @@ RUN apt-get update \
   libx11-6 \
   wget \
 # Install Miniconda
- && wget -O miniconda.sh https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh \
+ && wget --no-check-certificate -O miniconda.sh https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh \
  && pwd \
  && ls -a \
  && chmod +x ~/miniconda.sh \
