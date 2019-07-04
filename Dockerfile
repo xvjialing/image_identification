@@ -3,8 +3,6 @@ FROM registry.cn-hangzhou.aliyuncs.com/xvjialing/image_identification:base
 # Install some basic utilities
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-  bzip2 \
-  libx11-6 \
   wget \
 # Install Miniconda
  && wget --no-check-certificate -O miniconda.sh https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh \
