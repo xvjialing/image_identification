@@ -62,12 +62,17 @@ RUN apt-get update \
   && make \
   && make install \
   && ldconfig \
+  && apt-get autoremove -y wget build-essential g++ ca-certificates \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install some basic utilities
-  && cd /root \
+RUN cd /root \
+  && apt-get update \
   && apt-get install -y --no-install-recommends \
   bzip2 \
   libx11-6 \
+  wget \
 # Install Miniconda
  && wget -O miniconda.sh https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh \
  && pwd \
@@ -75,7 +80,7 @@ RUN apt-get update \
  && chmod +x ~/miniconda.sh \
  && ~/miniconda.sh -b -p ~/miniconda \
  && rm ~/miniconda.sh \
- && apt-get autoremove -y wget build-essential g++ ca-certificates \
+ && apt-get autoremove -y wget\
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 ENV PATH=/root/miniconda/bin:$PATH
