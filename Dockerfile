@@ -115,3 +115,7 @@ RUN conda install -y -c pytorch \
     && rm -rf /var/lib/apt/lists/* \
     && conda install -y -c menpo opencv=3.4.2 \
     && conda clean -ya
+    
+# install tensorflow flask dependencies
+RUN pip install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner
+ENV MKL_THREADING_LAYER GNU
