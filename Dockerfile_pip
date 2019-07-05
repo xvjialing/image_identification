@@ -1,7 +1,8 @@
 FROM registry.cn-hangzhou.aliyuncs.com/xvjialing/image_identification:base
 
 # install opencv3.4.2
-RUN apt-get update \
+RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/apt/sources.list \
+  && apt-get update \
   && apt-get -yqq install --no-install-recommends \
   build-essential \
   git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev \
