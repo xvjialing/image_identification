@@ -8,6 +8,12 @@ RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/ap
   git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev \
   python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
   
+RUN cd /root \
+  && git clone -b 3.4.2 https://github.com/opencv/opencv.git \
+  && git clone -b 3.4.2 https://github.com/opencv/opencv_contrib.git
+  
+
+  
 # install pytorch  
 #RUN pip3 install --upgrade setuptools \
 # && pip3 install https://download.pytorch.org/whl/cpu/torch-1.1.0-cp36-cp36m-linux_x86_64.whl \
