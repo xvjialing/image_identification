@@ -16,4 +16,12 @@ RUN cd Python-3.7.3 \
   && ./configure --prefix=/usr/local/python3 \
   && make \
   && make install \
-  && ln -s /usr/local/python3/bin/python /usr/bin/python
+  && rm -rf Python-3.7.3 \
+  && ln -s /usr/local/python3/bin/python /usr/bin/python \
+  && ln -s /usr/local/python3/bin/python /usr/bin/python3 \
+  && export PATH=$PATH:/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/python3/bin
+ENV PATH=/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/python3/bin:$PATH
+  
+# install pytorch  
+RUN pip3 install https://download.pytorch.org/whl/cpu/torch-1.1.0-cp37-cp37m-linux_x86_64.whl \
+  && pip3 install https://download.pytorch.org/whl/cpu/torchvision-0.3.0-cp37-cp37m-linux_x86_64.whl
