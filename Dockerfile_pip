@@ -2,7 +2,10 @@ FROM registry.cn-hangzhou.aliyuncs.com/xvjialing/image_identification:base
 
 # Install python 3.7.3
 RUN apt-get update \
-  && apt-get -yqq install --no-install-recommends wget build-essential \
+  && apt-get -yqq install --no-install-recommends 
+  wget \
+  build-essential \
+  zlib1g-dev \
   && wget --no-check-certificate https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz \
   && tar -zxvf Python-3.7.3.tgz \
   && rm Python-3.7.3.tgz \
