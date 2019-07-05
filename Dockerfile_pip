@@ -47,7 +47,7 @@ RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/ap
   
 # install pytorch  
 RUN pip3 install --upgrade setuptools \
-  && pip3 install torch==1.0.0 torchvision==0.2.1                
+  && pip3 install torch==1.0.0 -f https://download.pytorch.org/whl/cpu/stable                
 
   
 # install python
