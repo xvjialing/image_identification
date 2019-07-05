@@ -2,18 +2,55 @@ FROM ubuntu:18.04
 LABEL maintainer "jialing.xu@langyangtech.com"
 WORKDIR /root
 
-# install cmake
-RUN apt-get update \
-    && apt-get -yqq install --no-install-recommends wget build-essential g++ ca-certificates \
-    && wget https://github.com/Kitware/CMake/releases/download/v3.14.3/cmake-3.14.3.tar.gz \
-    && tar xzvf cmake-3.14.3.tar.gz \
-    && rm cmake-3.14.3.tar.gz \
-    && mv cmake-3.14.3 /usr/bin/cmake \
-    && cd /usr/bin/cmake \
-    && ./bootstrap \
-    && make \
-    && make install \
-    && cmake --version \
+# install opencv
+RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/apt/sources.list \
+  && apt-get update \
+  && apt-get -yqq install --no-install-recommends \
+  git wget build-essential g++ ca-certificates vim cmake \
+  libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev \
+  python3-dev python3-pip python3-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev \
+  
+# download opencv source code
+  && git clone -b 3.4.2 https://github.com/opencv/opencv.git \
+  && git clone -b 3.4.2 https://github.com/opencv/opencv_contrib.git \
+  
+# build code
+  && cd  opencv \
+  && mkdir build \
+  && cd build \
+  && mkdir /usr/local/opencv3.4.2 \
+  && cmake -D CMAKE_BUILD_TYPE=RELEASE \
+  -D CMAKE_INSTALL_PREFIX=/usr/local \
+  -D INSTALL_C_EXAMPLES=OFF \
+  -D INSTALL_PYTHON_EXAMPLES=OFF \
+  -D OPENCV_EXTRA_MODULES_PATH=/root/opencv_contrib/modules \
+  -D OPENCV_PYTHON3_INSTALL_PATH=/usr/local/opencv3.4.2 \
+  -D WITH_TBB=ON \
+  -D WITH_V4L=ON \
+  -D WITH_QT=OFF \
+  -D WITH_GTK=ON  \
+  -D WITH_OPENGL=ON \
+  -D WITH_CUDA=OFF \
+  -D BUILD_EXAMPLES=OFF .. \
+  
+  && make -j8 \
+  && make install \
+  && ldconfig \
+  && pip3 install opencv-python==3.4.2.17 \
+  && cd /root \
+  && rm -rf opencv opencv_contrib \
+  && apt-get autoremove -y cmake \
+
+# install cmake3.14.3
+  && wget https://github.com/Kitware/CMake/releases/download/v3.14.3/cmake-3.14.3.tar.gz \
+  && tar xzvf cmake-3.14.3.tar.gz \
+  && rm cmake-3.14.3.tar.gz \
+  && mv cmake-3.14.3 /usr/bin/cmake \
+  && cd /usr/bin/cmake \
+  && ./bootstrap \
+  && make \
+  && make install \
+  && cmake --version \
 
 # install python2.7.9
   && cd /root \
@@ -49,10 +86,10 @@ RUN apt-get update \
   && cd /usr/include \
   && chmod -R 777 json \
 
-# install tesseract
+# install tesseract4.1
   && cd /root \
   && apt-get install -y --no-install-recommends\
-  automake git libtool libleptonica-dev pkg-config \
+  automake libtool libleptonica-dev pkg-config \
   && git clone --depth 1 https://github.com/tesseract-ocr/tesseract.git --branch 4.1 --single-branch \
   && mv tesseract /usr/bin/tesseract \
   && cd /usr/bin/tesseract \
@@ -62,47 +99,6 @@ RUN apt-get update \
   && make \
   && make install \
   && ldconfig \
-
-# install opencv3.4.2
-  && cd /root\
-  && echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/apt/sources.list \
-  && apt-get update \
-  && apt-get -yqq install --no-install-recommends \
-  libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev \
-  python3-dev python3-pip python3-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev \
-  vim \
-# download opencv source code
-  && git clone -b 3.4.2 https://github.com/opencv/opencv.git \
-  && git clone -b 3.4.2 https://github.com/opencv/opencv_contrib.git \
-  
-# build code
-  && cd  opencv \
-  && mkdir build \
-  && cd build \
-  && mkdir /usr/local/opencv3.4.2 \
-  && cmake -D CMAKE_BUILD_TYPE=RELEASE \
-  -D CMAKE_INSTALL_PREFIX=/usr/local \
-  -D INSTALL_C_EXAMPLES=OFF \
-  -D INSTALL_PYTHON_EXAMPLES=OFF \
-  -D OPENCV_EXTRA_MODULES_PATH=/root/opencv_contrib/modules \
-  -D OPENCV_PYTHON3_INSTALL_PATH=/usr/local/opencv3.4.2 \
-  -D WITH_TBB=ON \
-  -D WITH_V4L=ON \
-  -D WITH_QT=OFF \
-  -D WITH_GTK=ON  \
-  -D WITH_OPENGL=ON \
-  -D WITH_CUDA=OFF \
-  -D BUILD_opencv_xfeatures2d=OFF \
-  -D BUILD_EXAMPLES=OFF .. \
-  
-  && make -j8 \
-  && make install \
-  && ldconfig \
-  && pip3 install opencv-python==3.4.2.17 \
-  && cd /root \
-  && rm -rf opencv opencv_contrib \
-  && apt-get autoremove -y wget ca-certificates automake git \
+  && apt-get autoremove -y ca-certificates automake git \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-  
-
