@@ -47,8 +47,8 @@ RUN echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/ap
   
 # install pytorch  
 RUN pip3 install --upgrade setuptools \
-  && pip3 install https://download.pytorch.org/whl/cpu/torch-1.1.0-cp36-cp36m-linux_x86_64.whl \
-  && pip3 install https://download.pytorch.org/whl/cpu/torchvision-0.3.0-cp36-cp36m-linux_x86_64.whl
+  && pip3 install torch==1.0.0 torchvision==0.2.1                
+
   
 # install python
   RUN pip3 install flask Flask-Cors tensorflow==1.13.1 tensorflow-serving-api==1.13.0 xmlrunner requests 
