@@ -8,5 +8,5 @@ RUN apt-get update \
   && rm Python-3.7.3.tgz \
   && cd Python-3.7.3 \
   && ./configure \
-  && make 
+  && make \
   && make install 
